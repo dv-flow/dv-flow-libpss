@@ -1,0 +1,22 @@
+
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dv-flow-libpss"
+version = "0.0.1"
+dependencies = [
+    "dv-flow-mgr"
+]
+authors = [
+    {name = "Matthew Ballance", email = "matt.ballance@gmail.com"},
+]
+description = "Provides dv-flow tasks for performing common tasks related to Accellera PSS"
+license = {file = "LICENSE" }
+
+[project.entry-points."dv_flow.mgr"]
+libhdlsim = "dv_flow.libpss.__ext__"
+
+[tool.setuptools.package-data]
+"dv_flow.libhdlsim" = ['**/flow.dv']
