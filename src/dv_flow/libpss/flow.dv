@@ -1,6 +1,6 @@
 
 package:
-  name: libpss
+  name: pss
 
   tasks:
   - name: Lib
@@ -11,9 +11,6 @@ package:
 
   - name: GenModelSV
     desc: Generates common files for a specific PSS model
-    with:
-      root_action:
-        type: str
     consumes:
     - filetype: pssSource
     - filetype: pssLib
@@ -21,4 +18,10 @@ package:
 
   - name: GenActorSV
     desc: Generates a PSS Actor (component+action)
+    consumes:
+    - filetype: pssSource
+    - filetype: pssLib
+    with:
+      root_action:
+        type: str
 
