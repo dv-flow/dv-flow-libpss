@@ -24,11 +24,25 @@ class PspLogParser(object):
         elif self._state == 1:
             if l.find("at line") != -1:
                 num = l[(l.find("at line")+8):l.find(" in")].strip()
+                post_in = l[l.find(" in")+4:].strip()
+
                 try:
                     self._line = int(num)
                 except ValueError:
                     self._state = 0
-                self._state = 2
+                if post_in == "":
+                    self._state = 2
+                else:
+                    self._path = post_in
+                    self.ctxt.marker(
+                        msg=self._msg,
+                        severity=self._severity,
+                        loc=TaskMarkerLoc(
+                            path=self._path,
+                            line=self._line
+                        )
+                    )
+                    self._state = 0
             elif l.strip() == "":
                 # Empty line, reset state
                 self._state = 0
