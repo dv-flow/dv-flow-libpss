@@ -10,7 +10,14 @@ package:
 
   - name: GenModelSV
     uses: pss.GenModelSV
-    pytask: dv_flow.libpss.zsp_gen_model_sv.GenModelSV
+    consumes: none
+    passthrough: all
+#    shell: pytask
+#    run: dv_flow.libpss.zsp_gen_model_sv.GenModelSV
+
+  - name: GenActorSV
+    uses: pss.GenActorSV
+    pytask: dv_flow.libpss.zsp_gen_actor_sv.GenActorSV
 
   - name: RuntimeSV
     uses: pss.RuntimeSV
