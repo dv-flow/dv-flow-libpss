@@ -5,6 +5,8 @@ package:
   tasks:
   - name: Lib
     desc: Pre-compiles PSS into a library
+    consumes:
+    - filetype: pssSource
 
   - name: RuntimeSV
     desc: Files for SystemVerilog runtime

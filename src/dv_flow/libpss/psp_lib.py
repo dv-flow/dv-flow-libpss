@@ -5,6 +5,7 @@ import shutil
 import pydantic.dataclasses as pdc
 from typing import List, Tuple
 from dv_flow.mgr import TaskDataResult, FileSet, TaskRunCtxt, TaskDataInput
+from dv_flow.libpss.psp_log_parser import PspLogParser
 from pydantic import BaseModel
 
 class Memento(BaseModel):
@@ -57,7 +58,10 @@ async def Lib(ctxt : TaskRunCtxt, input : TaskDataInput) -> TaskDataResult:
         for file in files:
             cmd.extend(['-pss', file])
 
-        status |= await ctxt.exec(cmd=cmd)
+        status |= await ctxt.exec(
+            cmd=cmd,
+            logfile="perspec_save.log",
+            logfilter=PspLogParser(ctxt).line)
 
     memento = Memento()
     for file in files:

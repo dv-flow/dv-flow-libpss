@@ -1,0 +1,20 @@
+
+package:
+  name: dv-flow-libpss
+
+  dep-sets:
+
+  - name: default-dev
+    deps:
+    - name: pytest
+      src: pypi
+    - name: dv-flow-mgr
+      url: http://github.com/dv-flow/dv-flow-mgr.git
+    - name: dv-flow-libhdlsim
+      url: http://github.com/dv-flow/dv-flow-libhdlsim.git
+    - name: Sphinx
+      src: pypi
+    - name: sphinxcontrib-mermaid
+      src: pypi
+
+

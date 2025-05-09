@@ -10,6 +10,7 @@ package:
 
   - name: GenModelSV
     uses: pss.GenModelSV
+    consumes: none
     passthrough: all
 #    shell: pytask
 #    run: dv_flow.libpss.zsp_gen_model_sv.GenModelSV

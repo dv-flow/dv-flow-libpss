@@ -4,6 +4,7 @@ import subprocess
 import shutil
 import pydantic.dataclasses as pdc
 from typing import List, Tuple
+from dv_flow.libpss.psp_log_parser import PspLogParser
 from dv_flow.mgr import TaskDataResult, FileSet, TaskRunCtxt, TaskDataInput
 from pydantic import BaseModel
 
@@ -79,7 +80,10 @@ async def GenModelSV(ctxt : TaskRunCtxt, input : TaskDataInput) -> TaskDataResul
         for file in files:
             cmd.extend(['-pss', file])
 
-        status |= await ctxt.exec(cmd=cmd)
+        status |= await ctxt.exec(
+            cmd=cmd,
+            logfile="perspec_gen.log",
+            logfilter=PspLogParser(ctxt).line)
 
     if changed and not status:
         cmd = ['gcc', 

@@ -3,8 +3,8 @@ import subprocess
 import shutil
 import pydantic.dataclasses as pdc
 from typing import List, Tuple
+from dv_flow.libpss.psp_log_parser import PspLogParser
 from dv_flow.mgr import TaskDataResult, FileSet, TaskRunCtxt, TaskDataInput
-from dv_flow.libhdlsim.sim_args import SimArgs
 from pydantic import BaseModel
 
 class Memento(BaseModel):
@@ -78,7 +78,10 @@ async def GenActorSV(ctxt : TaskRunCtxt, input : TaskDataInput) -> TaskDataResul
         for file in files:
             cmd.extend(['-pss', file])
 
-        status |= await ctxt.exec(cmd=cmd)
+        status |= await ctxt.exec(
+            cmd=cmd,
+            logfile="perspec_gen.log",
+            logfilter=PspLogParser(ctxt).line)
 
     if changed and not status:
         cmd = ['gcc', 
@@ -98,7 +101,8 @@ async def GenActorSV(ctxt : TaskRunCtxt, input : TaskDataInput) -> TaskDataResul
         basedir=input.rundir,
         filetype="systemVerilogDPI",
         files=['lib%s.so' % input.name]))
-    output.append(SimArgs(
+    output.append(ctxt.mkDataItem(
+        type="hdlsim.SimRunArgs",
         plusargs=["PERSPEC_TEST_DIR=%s" % os.path.join(input.rundir, "target_dir_1")]
     ))
 
